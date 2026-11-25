@@ -34,6 +34,13 @@ def main() -> int:
         print(f"error: entry is {len(line)} chars, max is {MAX_CHARS}",
               file=sys.stderr)
         return 1
+    if not 1 <= len(line) <= MAX_CHARS:
+        print(f"error: entry is {len(line)} chars, must be 1 to "
+              f"{MAX_CHARS} chars", file=sys.stderr)
+        return 1
+    if any(ord(ch) < 0x20 or ord(ch) == 0x7F for ch in line):
+        print("error: entry contains a control character", file=sys.stderr)
+        return 1
     # The program writes one text to /output/entry.txt (competition.yaml).
     # MAKEFUN_OUTPUT_DIR is honoured when the sandbox sets it, /output is
     # the fallback — never a hardcoded path alone.
